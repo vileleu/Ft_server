@@ -16,15 +16,17 @@ ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/
 
 #Installer phpmyadmin && wordpress
 
-unzip localhost.zip
-mv localhost /var/www/
-rm localhost.zip
+unzip html.zip
+mv html/* /var/www/html
+rm -rf html.zip
+rm -rf html
+mv var/www/html/index.nginx-debian.html var/www/html/index.nginx-debian.txt
 cd
 
 #Initialisaton de la base de donnees
 
 service mysql start
-mysql -u root < ../var/www/localhost/wordpress/init_db.sql
+mysql -u root < ../var/www/html/wordpress/init_db.sql
 
 #Mise en place du protocole SSL
 
@@ -36,9 +38,3 @@ mv mkcert-v1.1.2-linux-amd64 mkcert
 
 chown -R www-data:www-data /var/www/*
 chmod -R 755 /var/www/*
-
-#demarre les services du serveur
-
-service mysql restart
-service nginx start
-service php7.3-fpm start
